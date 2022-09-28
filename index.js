@@ -61,21 +61,29 @@ https.get(requestOptions, res => {
 });
 
 function filterCurrencies(filterKeys, arrayOfCurrencies) {
+    if(!Object.keys(filterKeys).length) return arrayOfCurrencies;
+
     const resultArrayOfCurrencies = [];
-    for (let i = 0; i < arrayOfCurrencies.length; i++) {
-        for (let filterKey in filterKeys) {
-            if (Array.isArray(filterKeys[filterKey])) {
-                for (let j = 0; j < filterKeys[filterKey].length; j++) {
-                    if (arrayOfCurrencies[i][filterKey] === filterKeys[filterKey][j]) {
-                        resultArrayOfCurrencies.push(arrayOfCurrencies[i]);
+    for(let i = 0; i < arrayOfCurrencies.length; i++){
+        for(let filterKey in filterKeys){
+            if(Array.isArray(filterKeys[filterKey])){
+                for(let j = 0; j < filterKeys[filterKey].length; j++){
+                    if(arrayOfCurrencies[i][filterKey] === filterKeys[filterKey][j]){
+                        if(!resultArrayOfCurrencies.includes(arrayOfCurrencies[i])){
+                            resultArrayOfCurrencies.push(arrayOfCurrencies[i]);
+                        }
                     }
                 }
-            } else {
-                if (arrayOfCurrencies[i][filterKey] === filterKeys[filterKey]) {
-                    resultArrayOfCurrencies.push(arrayOfCurrencies[i]);
+            }
+            else {
+                if(arrayOfCurrencies[i][filterKey] === filterKeys[filterKey]){
+                    if(!resultArrayOfCurrencies.includes(arrayOfCurrencies[i])){
+                        resultArrayOfCurrencies.push(arrayOfCurrencies[i]);
+                    }
                 }
             }
         }
     }
     return resultArrayOfCurrencies;
 }
+
